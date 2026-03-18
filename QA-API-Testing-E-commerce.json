@@ -1,0 +1,904 @@
+{
+	"info": {
+		"_postman_id": "cb73cc0c-d673-4bdd-93c5-0297fd099f3d",
+		"name": "AxoneChainingRequests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41403734"
+	},
+	"item": [
+		{
+			"name": "CustomerSignup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Customer id is generated\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"id\");",
+							"});",
+							"",
+							"let myResponse =pm.response.json();",
+							"let mycustomerID_ks=myResponse.id",
+							"let mycustomerEmail = myResponse.email;",
+							"",
+							"pm.globals.set(\"g-customerID\",mycustomerID_ks );",
+							"pm.globals.set(\"g-customerEmail\",mycustomerEmail);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"{{$randomEmail}}\",\n    \"password\": \"test12345\",\n    \"firstName\": \"martin\",\n    \"lastName\": \"john\",\n    \"phone\": \"1234567891\",\n    \"addressLine1\": \"10 Downing street\",\n    \"addressLine2\": \"London\",\n    \"postCode\": \"SL67EW\",\n    \"country\": \"UK\",\n    \"creditLimit\": 800\n    }\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://3.8.18.118:3100//customer/signup",
+					"protocol": "http",
+					"host": [
+						"3",
+						"8",
+						"18",
+						"118"
+					],
+					"port": "3100",
+					"path": [
+						"",
+						"customer",
+						"signup"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "CustomerSignup",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"{{$randomEmail}}\",\n    \"password\": \"test12345\",\n    \"firstName\": \"martin\",\n    \"lastName\": \"john\",\n    \"phone\": \"1234567891\",\n    \"addressLine1\": \"10 Downing street\",\n    \"addressLine2\": \"London\",\n    \"postCode\": \"SL67EW\",\n    \"country\": \"UK\",\n    \"creditLimit\": 800\n    }\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://3.8.18.118:3100//customer/signup",
+							"protocol": "http",
+							"host": [
+								"3",
+								"8",
+								"18",
+								"118"
+							],
+							"port": "3100",
+							"path": [
+								"",
+								"customer",
+								"signup"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Jan 2025 16:27:27 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Content-Length",
+							"value": "249"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1444,\n    \"email\": \"Madalyn33@yahoo.com\",\n    \"firstName\": \"martin\",\n    \"lastName\": \"john\",\n    \"phone\": \"1234567891\",\n    \"addressLine1\": \"10 Downing street\",\n    \"addressLine2\": \"London\",\n    \"postCode\": \"SL67EW\",\n    \"country\": \"UK\",\n    \"creditLimit\": 800,\n    \"permissions\": [\n        \"AccessAuthFeature\"\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "LoginRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Token value is generated\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"token\");",
+							"});",
+							"",
+							"let myResponse=pm.response.json();",
+							"let myTokenID =myResponse.token;",
+							"",
+							"pm.globals.set(\"g-tokenValue\", myTokenID);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n    \"email\":\"{{g-customerEmail}}\",\n    \"password\": \"test12345\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://3.8.18.118:3100/customer/login",
+					"protocol": "http",
+					"host": [
+						"3",
+						"8",
+						"18",
+						"118"
+					],
+					"port": "3100",
+					"path": [
+						"customer",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "LoginRequest",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"email\":\"{{g-customerEmail}}\",\n    \"password\": \"test12345\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://3.8.18.118:3100/customer/login",
+							"protocol": "http",
+							"host": [
+								"3",
+								"8",
+								"18",
+								"118"
+							],
+							"port": "3100",
+							"path": [
+								"customer",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Jan 2025 17:37:30 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Content-Length",
+							"value": "184"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE0NTkiLCJuYW1lIjoibWFydGluIGpvaG4iLCJpYXQiOjE3MzgxNzIyNTAsImV4cCI6MTczODE5NzQ1MH0.z361BSEUSi26vRocWkvZMuAdqVZk0BMQkFoiChq8e54\"\n}"
+				}
+			]
+		},
+		{
+			"name": "orderPlacement",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"orderNumber is generated\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"orderNumber\");",
+							"",
+							"",
+							"let myResponse = pm.response.json();",
+							"let myOrderNumber = myResponse.orderNumber;",
+							"pm.globals.set(\"g-orderNumber-ks\",  myOrderNumber);",
+							"",
+							"",
+							"",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{g-tokenValue}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"orderDate\": \"2025-01-18T00:00:00.000Z\",\n    \"shippedDate\": \"2025-01-19T00:00:00.000Z\",\n    \"possibleDeliveryDate\": \"2025-01-20T00:00:00.000Z\",\n    \"status\": \"WIP>\",\n    \"comments\": \"To be shipped\",\n    \"customerId\": {{g-customerID}}\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://3.8.18.118:3100//customers/:id/orders",
+					"protocol": "http",
+					"host": [
+						"3",
+						"8",
+						"18",
+						"118"
+					],
+					"port": "3100",
+					"path": [
+						"",
+						"customers",
+						":id",
+						"orders"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{g-customerID}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "orderPlacement",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"orderDate\": \"2025-01-18T00:00:00.000Z\",\n    \"shippedDate\": \"2025-01-19T00:00:00.000Z\",\n    \"possibleDeliveryDate\": \"2025-01-20T00:00:00.000Z\",\n    \"status\": \"WIP>\",\n    \"comments\": \"To be shipped\",\n    \"customerId\": {{g-customerID}}\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://3.8.18.118:3100//customers/:id/orders",
+							"protocol": "http",
+							"host": [
+								"3",
+								"8",
+								"18",
+								"118"
+							],
+							"port": "3100",
+							"path": [
+								"",
+								"customers",
+								":id",
+								"orders"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{g-customerID}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Jan 2025 17:37:41 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Content-Length",
+							"value": "210"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"orderNumber\": 402,\n    \"orderDate\": \"2025-01-18T00:00:00.000Z\",\n    \"shippedDate\": \"2025-01-19T00:00:00.000Z\",\n    \"possibleDeliveryDate\": \"2025-01-20T00:00:00.000Z\",\n    \"status\": \"WIP>\",\n    \"comments\": \"To be shipped\",\n    \"customerId\": 1459\n}"
+				}
+			]
+		},
+		{
+			"name": "OrderDetails",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"orderLineNumber is generated\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"orderLineNumber\");",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"quantityOrdered\":8,\n    \"priceEach\": 40,\n    \"orderNumber\":{{g-orderNumber-ks}},\n    \"productCode\": \"364fa19e\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://3.8.18.118:3100/orders/:id/orderdetails",
+					"protocol": "http",
+					"host": [
+						"3",
+						"8",
+						"18",
+						"118"
+					],
+					"port": "3100",
+					"path": [
+						"orders",
+						":id",
+						"orderdetails"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{g-orderNumber-ks}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OrderDetails",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantityOrdered\":8,\n    \"priceEach\": 40,\n    \"orderNumber\":{{g-orderNumber-ks}},\n    \"productCode\": \"364fa19e\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://3.8.18.118:3100/orders/:id/orderdetails",
+							"protocol": "http",
+							"host": [
+								"3",
+								"8",
+								"18",
+								"118"
+							],
+							"port": "3100",
+							"path": [
+								"orders",
+								":id",
+								"orderdetails"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{g-orderNumber-ks}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Jan 2025 17:37:53 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Content-Length",
+							"value": "101"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"orderLineNumber\": 174,\n    \"quantityOrdered\": 8,\n    \"priceEach\": 40,\n    \"orderNumber\": 402,\n    \"productCode\": \"364fa19e\"\n}"
+				}
+			]
+		},
+		{
+			"name": "PaymentDetails",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let myResponse = pm.response.json();",
+							"let mychecknumber = myResponse.checkNumber;",
+							"pm.globals.set(\"g-checkNumber-ks\",  mychecknumber);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"checkNumber\": \"{{$randomBankAccount}}\",\n    \"paymentDate\":  \"2025-01-18T00:00:00.000Z\",\n\n    \"amount\": 400,\n    \"customerNumber\":{{g-customerID}}\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://3.8.18.118:3100//payments",
+					"protocol": "http",
+					"host": [
+						"3",
+						"8",
+						"18",
+						"118"
+					],
+					"port": "3100",
+					"path": [
+						"",
+						"payments"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "PaymentDetails",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"checkNumber\": \"{{$randomBankAccount}}\",\n    \"paymentDate\":  \"2025-01-18T00:00:00.000Z\",\n\n    \"amount\": 400,\n    \"customerNumber\":{{g-customerID}}\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://3.8.18.118:3100//payments",
+							"protocol": "http",
+							"host": [
+								"3",
+								"8",
+								"18",
+								"118"
+							],
+							"port": "3100",
+							"path": [
+								"",
+								"payments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Jan 2025 17:38:00 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Content-Length",
+							"value": "102"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"checkNumber\": \"38075237\",\n    \"paymentDate\": \"2025-01-18T00:00:00.000Z\",\n    \"amount\": 400,\n    \"customerNumber\": 1459\n}"
+				}
+			]
+		},
+		{
+			"name": "CancelPayment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"",
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://3.8.18.118:3100//payments/:id",
+					"protocol": "http",
+					"host": [
+						"3",
+						"8",
+						"18",
+						"118"
+					],
+					"port": "3100",
+					"path": [
+						"",
+						"payments",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{g-checkNumber-ks}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "CancelPayment",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://3.8.18.118:3100//payments/:id",
+							"protocol": "http",
+							"host": [
+								"3",
+								"8",
+								"18",
+								"118"
+							],
+							"port": "3100",
+							"path": [
+								"",
+								"payments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{g-checkNumber-ks}}"
+								}
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Jan 2025 16:29:45 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "productSample",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let myResponse =pm.response.json();",
+							"let myproductcode_ks = myResponse.myproductcode;",
+							"",
+							"pm.globals.set(\"g-productcode\", myproductcode_ks,);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"productCode\": \"{{$randomAlphaNumeric}}\",\n\"productName\": \"Linen dd\",\n\"productScale\": \"Numbers\",\n\"productVendor\": \"Gwalior\",\n\"productDescription\": \"Cotton Garments\",\n\"quantityInStock\": 500,\n\"buyPrice\": 20,\n\"MSRP\": 30 } \n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://3.8.18.118:3100/products",
+					"protocol": "http",
+					"host": [
+						"3",
+						"8",
+						"18",
+						"118"
+					],
+					"port": "3100",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "New Request",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"productCode\": \"{{$randomProduct}}\",\n\"productName\": \"Linen dd\",\n\"productScale\": \"Numbers\",\n\"productVendor\": \"Gwalior\",\n\"productDescription\": \"Cotton Garments\",\n\"quantityInStock\": 500,\n\"buyPrice\": 20,\n\"MSRP\": 30 } \n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://3.8.18.118:3100/products",
+							"protocol": "http",
+							"host": [
+								"3",
+								"8",
+								"18",
+								"118"
+							],
+							"port": "3100",
+							"path": [
+								"products"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 29 Jan 2025 20:00:43 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Content-Length",
+							"value": "183"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"productCode\": \"Bike\",\n    \"productName\": \"Linen dd\",\n    \"productScale\": \"Numbers\",\n    \"productVendor\": \"Gwalior\",\n    \"productDescription\": \"Cotton Garments\",\n    \"quantityInStock\": 500,\n    \"buyPrice\": 20,\n    \"MSRP\": 30\n}"
+				}
+			]
+		}
+	]
+}
